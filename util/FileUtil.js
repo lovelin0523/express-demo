@@ -1,6 +1,7 @@
 //引入文件流
 const fs = require("fs");
 const path = require("path");
+
 var FileUtil = {};
 
 //读取文件内容
@@ -81,7 +82,6 @@ FileUtil.closeFile = function(filePath) {
 	})
 }
 
-
 //查看文件或者目录的操作权限
 FileUtil.access = function(filePath) {
 	return new Promise(function(resolve, reject) {
@@ -147,7 +147,6 @@ FileUtil.rmdir = function(filePath) {
 	})
 }
 
-
 //删除文件
 FileUtil.deleteFile = function(filePath) {
 	return new Promise(function(resolve, reject) {
@@ -160,7 +159,6 @@ FileUtil.deleteFile = function(filePath) {
 		});
 	})
 }
-
 
 //递归创建目录
 FileUtil.mkdirs = function(filePath) {

@@ -1,9 +1,7 @@
-//引入连接池模块
-const pool = require("../pool")
 //dao
 const userDao = require("../dao/UserDao")
 //引入JsonResult类
-const JsonResult = require("../util/JsonResult")
+const JsonResult = require("../object/JsonResult")
 //引入异常
 const ServiceError = require("../error/ServiceError")
 //引入md5
@@ -19,11 +17,8 @@ const service = {};
 
 //测试业务
 service.demoTest = (req,res,next,params)=>{
-	
-	setTimeout(()=>{
-		return res.json(new JsonResult(JsonResult.STATUS_SUCCESS,'测试成功','欢迎使用express-demo'));
-	},5000)
 	//进行业务处理,调用dao层接口,进行回调
+	return res.json(new JsonResult(JsonResult.STATUS_SUCCESS,'测试成功','欢迎使用express-demo'));
 }
 
 module.exports = service

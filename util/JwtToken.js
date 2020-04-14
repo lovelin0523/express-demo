@@ -36,7 +36,7 @@ class JwtToken {
 	}
 }
 
-JwtToken.SECRET = "mvi";
+JwtToken.SECRET = "demo";
 
 const jwtToken = new JwtToken(15); //用户登录有效期15天
 

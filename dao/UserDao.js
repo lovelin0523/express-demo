@@ -3,7 +3,7 @@ const ServiceError = require("../error/ServiceError.js")
 //引入工具类
 const util = require("../util/util.js")
 //引入sql操作
-const SqlUtil = require("../util/SqlUtil")
+const SqlUtil = require("../sql/SqlUtil")
 //创建sql类实例
 const sqlUtil = new SqlUtil('user')
 //创建dao

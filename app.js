@@ -4,10 +4,10 @@ const express = require("express");
 //引入中间件
 const bodyParser = require("body-parser");
 //引入JsonResult类
-const JsonResult = require("./util/JsonResult");
+const JsonResult = require("./object/JsonResult");
 //引入工具类util
 const util = require("./util/util");
-const loginFilter = require("./util/LoginFilter")
+const loginFilter = require("./filter/LoginFilter")
 //引入token工具
 const jwt = require("./util/JwtToken");
 //引入自定义的异常

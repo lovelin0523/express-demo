@@ -19,6 +19,4 @@ dao.createUser = function(user) {
 	})
 }
 
-
-
 module.exports = dao

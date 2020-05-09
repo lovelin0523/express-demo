@@ -283,7 +283,7 @@ class SqlUtil {
 				if (error) {
 					reject(error);
 				} else {
-					resolve(result)
+					resolve(result[0]['count(1)'])
 				}
 			})
 		})

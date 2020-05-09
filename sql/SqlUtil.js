@@ -104,12 +104,13 @@ class SqlUtil {
 	/**
 	 * 多条件查询
 	 * @param {Object} queryOptions 字段参数对象
+	 * @param {Object} conjuction 连接词，取值and或者or 
 	 * @param {Object} sortBy 排序依据,即根据什么字段进行排序,此处值为排序依据的字段名称字符串
 	 * @param {Object} sortMethod 排序方法,即是升序还是降序，升序为"asc",降序为"desc"
 	 * @param {Object} startIndex  分页数据起始序列
 	 * @param {Object} pageSize 分页大小
 	 */
-	querys(queryOptions, sortBy, sortMethod, startIndex, pageSize) {
+	querys(queryOptions, conjuction, sortBy, sortMethod, startIndex, pageSize) {
 		return new Promise((resolve, reject) => {
 			var sql = `select * from ${this.table}`;
 			var params = [];
@@ -139,45 +140,45 @@ class SqlUtil {
 					if (qb.value[0] != null && qb.value[1] != null && qb.value[0] != undefined && qb.value[1] != undefined) {
 						if (qb.value[0] <= qb.value[1]) {
 							if(qb.equal){
-								sql += `${key}>=? and ${key}<=? and `;
+								sql += `(${key}>=? and ${key}<=?) ${conjuction} `;
 							}else{
-								sql += `${key}>? and ${key}<? and `;
+								sql += `(${key}>? and ${key}<?) ${conjuction} `;
 							}
 						} else {
 							if(qb.equal){
-								sql += `(${key}>=? or ${key}<=?) and `;
+								sql += `(${key}>=? or ${key}<=?) ${conjuction} `;
 							}else{
-								sql += `(${key}>? or ${key}<?) and `;
+								sql += `(${key}>? or ${key}<?) ${conjuction} `;
 							}
 						}
 						params.push(qb.value[0]);
 						params.push(qb.value[1]);
 					} else if (qb.value[0] != null && qb.value[0] != undefined) {
 						if(qb.equal){
-							sql += `${key}>=? and `;
+							sql += `${key}>=? ${conjuction} `;
 						}else{
-							sql += `${key}>? and `;
+							sql += `${key}>? ${conjuction} `;
 						}
 						params.push(qb.value[0]);
 					} else if (qb.value[1] != null && qb.value[1] != undefined) {
 						if(qb.equal){
-							sql += `${key}<=? and `;
+							sql += `${key}<=? ${conjuction} `;
 						}else{
-							sql += `${key}<? and `;
+							sql += `${key}<? ${conjuction} `;
 						}
 						params.push(qb.value[1]);
 					}
 				} else {
 					//开启模糊查询
 					if (qb.fuzzy) {
-						sql += `locate(?,${key})>0 and `;
+						sql += `locate(?,${key})>0 ${conjuction} `;
 					} else {
-						sql += `${key}=? and `;
+						sql += `${key}=? ${conjuction} `;
 					}
 					params.push(qb.value);
 				}
 			})
-			const index = sql.lastIndexOf("and");
+			const index = sql.lastIndexOf(conjuction);
 			if (index > -1) {
 				sql = sql.substring(0, index);
 			} else {
@@ -203,9 +204,10 @@ class SqlUtil {
 
 	/**
 	 * 多条件查询的总记录数
-	 * @param {Object} queryOptions
+	 * @param {Object} queryOptions 字段参数对象
+	 * @param {Object} conjuction 连接词，取值and或者or 
 	 */
-	queryCounts(queryOptions) {
+	queryCounts(queryOptions,conjuction) {
 		return new Promise((resolve, reject) => {
 			var sql = `select count(1) from ${this.table}`;
 			var params = [];
@@ -229,51 +231,51 @@ class SqlUtil {
 					qb.fuzzy = false; //默认非模糊查询
 					qb.equal = true;//默认范围查询时包含等号
 				}
-		
+			
 				//如果value值为数组，表示范围查询
 				if (qb.value instanceof Array) {
 					if (qb.value[0] != null && qb.value[1] != null && qb.value[0] != undefined && qb.value[1] != undefined) {
 						if (qb.value[0] <= qb.value[1]) {
 							if(qb.equal){
-								sql += `${key}>=? and ${key}<=? and `;
+								sql += `(${key}>=? and ${key}<=?) ${conjuction} `;
 							}else{
-								sql += `${key}>? and ${key}<? and `;
+								sql += `(${key}>? and ${key}<?) ${conjuction} `;
 							}
 						} else {
 							if(qb.equal){
-								sql += `(${key}>=? or ${key}<=?) and `;
+								sql += `(${key}>=? or ${key}<=?) ${conjuction} `;
 							}else{
-								sql += `(${key}>? or ${key}<?) and `;
+								sql += `(${key}>? or ${key}<?) ${conjuction} `;
 							}
 						}
 						params.push(qb.value[0]);
 						params.push(qb.value[1]);
 					} else if (qb.value[0] != null && qb.value[0] != undefined) {
 						if(qb.equal){
-							sql += `${key}>=? and `;
+							sql += `${key}>=? ${conjuction} `;
 						}else{
-							sql += `${key}>? and `;
+							sql += `${key}>? ${conjuction} `;
 						}
 						params.push(qb.value[0]);
 					} else if (qb.value[1] != null && qb.value[1] != undefined) {
 						if(qb.equal){
-							sql += `${key}<=? and `;
+							sql += `${key}<=? ${conjuction} `;
 						}else{
-							sql += `${key}<? and `;
+							sql += `${key}<? ${conjuction} `;
 						}
 						params.push(qb.value[1]);
 					}
 				} else {
 					//开启模糊查询
 					if (qb.fuzzy) {
-						sql += `locate(?,${key})>0 and `;
+						sql += `locate(?,${key})>0 ${conjuction} `;
 					} else {
-						sql += `${key}=? and `;
+						sql += `${key}=? ${conjuction} `;
 					}
 					params.push(qb.value);
 				}
 			})
-			const index = sql.lastIndexOf("and");
+			const index = sql.lastIndexOf(conjuction);
 			if (index > -1) {
 				sql = sql.substring(0, index);
 			} else {

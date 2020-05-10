@@ -23,7 +23,13 @@ class CodeSMS {
 			// 实例化 QcloudSms
 			var qcloudsms = QcloudSms(this.appid, this.appkey);
 			var ssender = qcloudsms.SmsSingleSender();
-			ssender.sendWithParam("86", this.phoneNumber, this.templateId, this.params, this.smsSign, "", "", resolve);
+			ssender.sendWithParam("86", this.phoneNumber, this.templateId, this.params, this.smsSign, "", "", function(err, res, resData){
+				resolve({
+					error:err,
+					res:res,
+					resData:resData
+				})
+			});
 		})
 	}
 }

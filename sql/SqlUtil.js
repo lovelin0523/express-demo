@@ -85,11 +85,21 @@ class SqlUtil {
 	/**
 	 * 单条件查询
 	 * @param {Object} column 表字段名称(以此字段查询)
-	 * @param {Object} columnValue 表字段名称对应的值 
+	 * @param {Object} columnValue 表字段名称对应的值
+	 * @param {Object} columns 指定查询部分字段数组 
 	 */
-	query(column, columnValue) {
+	query(column, columnValue,columns) {
 		return new Promise((resolve, reject) => {
-			var sql = 'select * from ' + this.table + ' where ' + column + '=?';
+			var str = '';
+			if(columns instanceof Array){
+				for(var i = 0;i<columns.length;i++){
+					str += ','+columns[i];
+				}
+				str = str.substr(1);
+			}else{
+				str = '*'
+			}
+			var sql = `select ${str} from ${this.table} where ${column}=?`;
 			var params = [columnValue];
 			pool.query(sql, params, (error, result) => {
 				if (error) {
@@ -109,10 +119,20 @@ class SqlUtil {
 	 * @param {Object} sortMethod 排序方法,即是升序还是降序，升序为"asc",降序为"desc"
 	 * @param {Object} startIndex  分页数据起始序列
 	 * @param {Object} pageSize 分页大小
+	 * @param {Object} columns 指定查询部分字段数组 
 	 */
-	querys(queryOptions, conjuction, sortBy, sortMethod, startIndex, pageSize) {
+	querys(queryOptions, conjuction, sortBy, sortMethod, startIndex, pageSize,columns) {
 		return new Promise((resolve, reject) => {
-			var sql = `select * from ${this.table}`;
+			var str = '';
+			if(columns instanceof Array){
+				for(var i = 0;i<columns.length;i++){
+					str += ','+columns[i];
+				}
+				str = str.substr(1);
+			}else{
+				str = '*'
+			}
+			var sql = `select ${str} from ${this.table}`;
 			var params = [];
 			sql += " where ";
 			Object.keys(queryOptions).forEach(function(key, index) {

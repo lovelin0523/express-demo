@@ -1,5 +1,4 @@
-//dao
-const userDao = require("../dao/UserDao")
+const SqlUtil = require('../sql/SqlUtil')
 //引入JsonResult类
 const JsonResult = require("../object/JsonResult")
 //引入异常
@@ -12,6 +11,8 @@ const jwt = require("../util/JwtToken")
 const util = require("../util/util")
 //引入实体
 const User = require("../entity/User")
+//创建sql查询
+const sqlUtil = new SqlUtil('user');
 //创建业务类
 const service = {};
 

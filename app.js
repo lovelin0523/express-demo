@@ -13,8 +13,6 @@ const jwt = require("./util/JwtToken");
 //引入自定义的异常
 const ServiceError = require("./error/ServiceError");
 const TokenError = require("./error/TokenError");
-//引入dao
-const userDao = require("./dao/UserDao");
 
 //创建web服务器
 var server = express();

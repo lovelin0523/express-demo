@@ -49,7 +49,7 @@ server.use(function(req, res, next) {
 		if (token) {
 			//解析token
 			jwt.parseToken(token).then(function(result) {
-				user_id = result.user_id;
+				console.log(result)
 				next();
 			}).catch(function(error) {
 				next(error);
@@ -63,10 +63,10 @@ server.use(function(req, res, next) {
 });
 
 //引入controller目录下的js接口文件
-const UserController = require("./controller/UserController")
+const DemoController = require("./controller/DemoController.js")
 
 //挂载路由器
-server.use("/api/user",UserController);
+server.use("/api/demo",DemoController);
 
 //异常捕获
 server.use(function(error, req, res, next) {

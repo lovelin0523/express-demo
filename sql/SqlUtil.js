@@ -88,15 +88,15 @@ class SqlUtil {
 	 * @param {Object} columnValue 表字段名称对应的值
 	 * @param {Object} columns 指定查询部分字段数组 
 	 */
-	query(column, columnValue,columns) {
+	query(column, columnValue, columns) {
 		return new Promise((resolve, reject) => {
 			var str = '';
-			if(columns instanceof Array){
-				for(var i = 0;i<columns.length;i++){
-					str += ','+columns[i];
+			if (columns instanceof Array) {
+				for (var i = 0; i < columns.length; i++) {
+					str += ',' + columns[i];
 				}
 				str = str.substr(1);
-			}else{
+			} else {
 				str = '*'
 			}
 			var sql = `select ${str} from ${this.table} where ${column}=?`;
@@ -121,15 +121,15 @@ class SqlUtil {
 	 * @param {Object} pageSize 分页大小
 	 * @param {Object} columns 指定查询部分字段数组 
 	 */
-	querys(queryOptions, conjuction, sortBy, sortMethod, startIndex, pageSize,columns) {
+	querys(queryOptions, conjuction, sortBy, sortMethod, startIndex, pageSize, columns) {
 		return new Promise((resolve, reject) => {
 			var str = '';
-			if(columns instanceof Array){
-				for(var i = 0;i<columns.length;i++){
-					str += ','+columns[i];
+			if (columns instanceof Array) {
+				for (var i = 0; i < columns.length; i++) {
+					str += ',' + columns[i];
 				}
 				str = str.substr(1);
-			}else{
+			} else {
 				str = '*'
 			}
 			var sql = `select ${str} from ${this.table}`;
@@ -139,51 +139,51 @@ class SqlUtil {
 				var qb = {};
 				if (typeof(queryOptions[key]) == "object") { //对象形式，则可能进行模糊查询或者范围查询
 					qb.value = queryOptions[key].value;
-					if(typeof(queryOptions[key].fuzzy) == 'boolean'){
+					if (typeof(queryOptions[key].fuzzy) == 'boolean') {
 						qb.fuzzy = queryOptions[key].fuzzy;
-					}else{
+					} else {
 						qb.fuzzy = false;
 					}
-					if(typeof(queryOptions[key].equal) == 'boolean'){
+					if (typeof(queryOptions[key].equal) == 'boolean') {
 						qb.equal = queryOptions[key].equal;
-					}else{
+					} else {
 						qb.equal = true;
 					}
 				} else { //非对象形式，即直接根据字段-字段值进行查询
 					qb.value = queryOptions[key];
 					qb.fuzzy = false; //默认非模糊查询
-					qb.equal = true;//默认范围查询时包含等号
+					qb.equal = true; //默认范围查询时包含等号
 				}
 
 				//如果value值为数组，表示范围查询
 				if (qb.value instanceof Array) {
 					if (qb.value[0] != null && qb.value[1] != null && qb.value[0] != undefined && qb.value[1] != undefined) {
 						if (qb.value[0] <= qb.value[1]) {
-							if(qb.equal){
+							if (qb.equal) {
 								sql += `(${key}>=? and ${key}<=?) ${conjuction} `;
-							}else{
+							} else {
 								sql += `(${key}>? and ${key}<?) ${conjuction} `;
 							}
 						} else {
-							if(qb.equal){
+							if (qb.equal) {
 								sql += `(${key}>=? or ${key}<=?) ${conjuction} `;
-							}else{
+							} else {
 								sql += `(${key}>? or ${key}<?) ${conjuction} `;
 							}
 						}
 						params.push(qb.value[0]);
 						params.push(qb.value[1]);
 					} else if (qb.value[0] != null && qb.value[0] != undefined) {
-						if(qb.equal){
+						if (qb.equal) {
 							sql += `${key}>=? ${conjuction} `;
-						}else{
+						} else {
 							sql += `${key}>? ${conjuction} `;
 						}
 						params.push(qb.value[0]);
 					} else if (qb.value[1] != null && qb.value[1] != undefined) {
-						if(qb.equal){
+						if (qb.equal) {
 							sql += `${key}<=? ${conjuction} `;
-						}else{
+						} else {
 							sql += `${key}<? ${conjuction} `;
 						}
 						params.push(qb.value[1]);
@@ -227,7 +227,7 @@ class SqlUtil {
 	 * @param {Object} queryOptions 字段参数对象
 	 * @param {Object} conjuction 连接词，取值and或者or 
 	 */
-	queryCounts(queryOptions,conjuction) {
+	queryCounts(queryOptions, conjuction) {
 		return new Promise((resolve, reject) => {
 			var sql = `select count(1) from ${this.table}`;
 			var params = [];
@@ -236,51 +236,51 @@ class SqlUtil {
 				var qb = {};
 				if (typeof(queryOptions[key]) == "object") { //对象形式，则可能进行模糊查询或者范围查询
 					qb.value = queryOptions[key].value;
-					if(typeof(queryOptions[key].fuzzy) == 'boolean'){
+					if (typeof(queryOptions[key].fuzzy) == 'boolean') {
 						qb.fuzzy = queryOptions[key].fuzzy;
-					}else{
+					} else {
 						qb.fuzzy = false;
 					}
-					if(typeof(queryOptions[key].equal) == 'boolean'){
+					if (typeof(queryOptions[key].equal) == 'boolean') {
 						qb.equal = queryOptions[key].equal;
-					}else{
+					} else {
 						qb.equal = true;
 					}
 				} else { //非对象形式，即直接根据字段-字段值进行查询
 					qb.value = queryOptions[key];
 					qb.fuzzy = false; //默认非模糊查询
-					qb.equal = true;//默认范围查询时包含等号
+					qb.equal = true; //默认范围查询时包含等号
 				}
-			
+
 				//如果value值为数组，表示范围查询
 				if (qb.value instanceof Array) {
 					if (qb.value[0] != null && qb.value[1] != null && qb.value[0] != undefined && qb.value[1] != undefined) {
 						if (qb.value[0] <= qb.value[1]) {
-							if(qb.equal){
+							if (qb.equal) {
 								sql += `(${key}>=? and ${key}<=?) ${conjuction} `;
-							}else{
+							} else {
 								sql += `(${key}>? and ${key}<?) ${conjuction} `;
 							}
 						} else {
-							if(qb.equal){
+							if (qb.equal) {
 								sql += `(${key}>=? or ${key}<=?) ${conjuction} `;
-							}else{
+							} else {
 								sql += `(${key}>? or ${key}<?) ${conjuction} `;
 							}
 						}
 						params.push(qb.value[0]);
 						params.push(qb.value[1]);
 					} else if (qb.value[0] != null && qb.value[0] != undefined) {
-						if(qb.equal){
+						if (qb.equal) {
 							sql += `${key}>=? ${conjuction} `;
-						}else{
+						} else {
 							sql += `${key}>? ${conjuction} `;
 						}
 						params.push(qb.value[0]);
 					} else if (qb.value[1] != null && qb.value[1] != undefined) {
-						if(qb.equal){
+						if (qb.equal) {
 							sql += `${key}<=? ${conjuction} `;
-						}else{
+						} else {
 							sql += `${key}<? ${conjuction} `;
 						}
 						params.push(qb.value[1]);

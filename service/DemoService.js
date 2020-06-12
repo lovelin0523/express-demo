@@ -17,7 +17,7 @@ const sqlUtil = new SqlUtil('demo');
 const service = {};
 
 //测试业务，使用asyc/await 进行异步转同步处理
-service.demoTest = async (req,res,next,params)=>{
+service.demoTest = async (req,res,next)=>{
 	//进行业务处理,调用dao层接口,进行回调
 	var demo = new Demo(5,'欢迎使用express-demo')
 	return res.json(new JsonResult(JsonResult.STATUS_SUCCESS,'测试成功',demo));

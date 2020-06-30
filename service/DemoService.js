@@ -1,4 +1,4 @@
-const SqlUtil = require('../sql/SqlUtil')
+const SqlUtil = require('mysql-op')
 //引入JsonResult类
 const JsonResult = require("../object/JsonResult")
 //引入异常
@@ -12,7 +12,8 @@ const util = require("../util/util")
 //引入实体
 const Demo = require("../entity/Demo")
 //创建sql查询
-const sqlUtil = new SqlUtil('demo');
+const pool = require('../pool.js');
+const sqlUtil = new SqlUtil(pool,'demo');
 //创建业务类
 const service = {};
 

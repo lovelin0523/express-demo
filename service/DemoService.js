@@ -11,9 +11,18 @@ const jwt = require("../util/JwtToken")
 const util = require("../util/util")
 //引入实体
 const Demo = require("../entity/Demo")
-//创建sql查询
-const pool = require('../pool.js');
-const sqlUtil = new SqlUtil(pool,'demo');
+//引入sql
+const pool = require("../pool.js")
+//引入mysql-op
+const SqlUtil = require("mysql-op")
+//创建mysql-op实例
+const sqlUtil = new SqlUtil('demo',pool)
+//引入文件操作类
+const FdOp = require("fd-op")
+//创建fd-op实例
+const path = require("path")
+const fs = require("fs")
+const fdOp = new FdOp(fs,path)
 //创建业务类
 const service = {};
 

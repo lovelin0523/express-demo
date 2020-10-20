@@ -15,7 +15,7 @@ const pool = require("../pool.js")
 //引入mysql-op
 const SqlUtil = require("mysql-op")
 //创建mysql-op实例
-const sqlUtil = new SqlUtil('demo',pool)
+const sqlUtil = new SqlUtil(pool,'demo')
 //引入文件操作类
 const FdOp = require("fd-op")
 //创建fd-op实例

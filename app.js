@@ -24,7 +24,7 @@ server.all("*", function(req, res, next) {
 	//跨域允许的请求方式 
 	res.setHeader("Access-Control-Allow-Methods", "DELETE,PUT,POST,GET,OPTIONS");
 	if (req.method.toLowerCase() == 'options')
-		res.send(200); //让options尝试请求快速结束
+		res.sendStatus(200); //让options尝试请求快速结束
 	else
 		next();
 });
@@ -77,7 +77,7 @@ server.use(function(error, req, res, next) {
 		} else if (error.name == "TokenError") {
 			res.json(new JsonResult(JsonResult.STATUS_TOKEN_ERROR, error.message));
 		} else {
-			res.json(new JsonResult(JsonResult.STATUS_SERVICE_ERROR, "系统出现了一点小小的错误,请重新尝试"));
+			res.json(new JsonResult(JsonResult.STATUS_SERVICE_ERROR, "系统异常"));
 		}
 	}
 });

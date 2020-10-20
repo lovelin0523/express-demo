@@ -1,4 +1,3 @@
-const SqlUtil = require('mysql-op')
 //引入JsonResult类
 const JsonResult = require("../object/JsonResult")
 //引入异常

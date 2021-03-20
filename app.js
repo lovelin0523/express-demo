@@ -8,8 +8,8 @@ const JsonResult = require("./object/JsonResult");
 const util = require("./util/util");
 //引入token工具
 const jwt = require("./jwt/JwtToken");
-//引入需要token判断的路径
-const filterRoutes = require('./jwt/filterRoutes')
+//引入接口请求验证方法
+const filter = require('./jwt/filter.js')
 //引入应用异常
 const ServiceError = require("./error/ServiceError");
 //引入token异常
@@ -45,7 +45,7 @@ server.use(bodyParser.urlencoded({
 //请求访问拦截
 server.use(async (req, res, next) => {
 	var url = req.originalUrl; //获取浏览器中当前访问的nodejs路由地址
-	if (filterRoutes.includes(url)) { //该地址需要token验证
+	if (filter(url)) { //该地址需要token验证
 		var token = req.headers['authorization'];
 		if (token) {
 			//解析token

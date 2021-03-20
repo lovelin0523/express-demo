@@ -1,7 +1,7 @@
 /**
- * 短信验证码缓存方法
+ * 短信验证码缓存
  */
-class SMSCodeCache {
+class SmsCache {
 	constructor() {
 		this.timer = 2; //过期时间默认为2分
 		this.map = {}; //数据集合
@@ -20,6 +20,4 @@ class SMSCodeCache {
 	}
 }
 
-const sc = new SMSCodeCache();
-
-module.exports = sc;
+module.exports = new SmsCache();

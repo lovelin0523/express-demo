@@ -1,4 +1,3 @@
-
 //引入express模块
 const express = require("express");
 //引入中间件
@@ -7,16 +6,18 @@ const bodyParser = require("body-parser");
 const JsonResult = require("./object/JsonResult");
 //引入工具类util
 const util = require("./util/util");
-const loginFilter = require("./filter/LoginFilter")
 //引入token工具
-const jwt = require("./util/JwtToken");
-//引入自定义的异常
+const jwt = require("./jwt/JwtToken");
+//引入需要token判断的路径
+const filterRoutes = require('./jwt/filterRoutes')
+//引入应用异常
 const ServiceError = require("./error/ServiceError");
-const TokenError = require("./error/TokenError");
+//引入token异常
+const UnauthorizedError = require("./error/UnauthorizedError");
 
 //创建web服务器
 var server = express();
-server.all("*", function(req, res, next) {
+server.all("*", (req, res, next) => {
 	//设置允许跨域的域名，*代表允许任意域名跨域
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	//允许的header类型
@@ -30,7 +31,7 @@ server.all("*", function(req, res, next) {
 });
 
 //监听端口
-server.listen(3300,'0.0.0.0');
+server.listen(3300, '0.0.0.0');
 //使用body-parser中间件
 server.use(bodyParser.json({
 	limit: '500mb'
@@ -41,21 +42,22 @@ server.use(bodyParser.urlencoded({
 }));
 
 
-//请求拦截
-server.use(function(req, res, next) {
+//请求访问拦截
+server.use(async (req, res, next) => {
 	var url = req.originalUrl; //获取浏览器中当前访问的nodejs路由地址
-	if (loginFilter.doFilter(url)) { //该地址需要用户token验证
+	if (filterRoutes.includes(url)) { //该地址需要token验证
 		var token = req.headers['authorization'];
 		if (token) {
 			//解析token
-			jwt.parseToken(token).then(function(result) {
-				console.log(result)
-				next();
-			}).catch(function(error) {
+			let jwtResult = await jwt.parseToken(token).catch(error => {
 				next(error);
+				return;
 			})
+			//这里对jwtResult进行校验
+			next();
 		} else {
-			next(new TokenError('TOKEN已失效，请重新登录'));
+			//token不存在，直接不给通过
+			next(new UnauthorizedError('请求头未携带token信息，校验不通过'));
 		}
 	} else {
 		next();
@@ -66,20 +68,18 @@ server.use(function(req, res, next) {
 const DemoController = require("./controller/DemoController.js")
 
 //挂载路由器
-server.use("/api/demo",DemoController);
+server.use("/api/demo", DemoController);
 
 //异常捕获
-server.use(function(error, req, res, next) {
+server.use((error, req, res, next) => {
 	if (error) {
 		console.log(error);
 		if (error.name == "ServiceError") {
 			res.json(new JsonResult(JsonResult.STATUS_SERVICE_ERROR, error.message));
-		} else if (error.name == "TokenError") {
+		} else if (error.name == "UnauthorizedError") {
 			res.json(new JsonResult(JsonResult.STATUS_TOKEN_ERROR, error.message));
 		} else {
-			res.json(new JsonResult(JsonResult.STATUS_SERVICE_ERROR, "系统异常"));
+			res.json(new JsonResult(JsonResult.STATUS_SYSTEM_ERROR, error.message));
 		}
 	}
 });
-
-

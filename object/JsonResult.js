@@ -9,8 +9,9 @@ class JsonResult {
 	}
 }
 
-JsonResult.STATUS_SUCCESS = 100; //请求成功状态码
-JsonResult.STATUS_SERVICE_ERROR = 101; //应用异常状态码
-JsonResult.STATUS_TOKEN_ERROR = 102; //token异常状态码
+JsonResult.STATUS_SUCCESS = 200; //请求成功状态码
+JsonResult.STATUS_SERVICE_ERROR = 301; //应用异常状态码
+JsonResult.STATUS_TOKEN_ERROR = 401; //token异常状态码
+JsonResult.STATUS_SYSTEM_ERROR = 501;//系统异常状态码
 
 module.exports = JsonResult;

@@ -8,7 +8,7 @@ const routes = [
 
 module.exports = (url)=>{
 	//也可以自己实现验证方法
-	if(this.routes.includes(url)){
+	if(routes.includes(url)){
 		return true;
 	}else {
 		return false;

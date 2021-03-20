@@ -9,7 +9,7 @@ const util = require("./util/util");
 //引入token工具
 const jwt = require("./jwt/JwtToken");
 //引入接口请求验证方法
-const filter = require('./jwt/filter.js')
+const filter = require('./filter/filter.js')
 //引入应用异常
 const ServiceError = require("./error/ServiceError");
 //引入token异常

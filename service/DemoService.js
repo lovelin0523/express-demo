@@ -1,5 +1,3 @@
-//引入JsonResult类
-const JsonResult = require("../object/JsonResult")
 //引入异常
 const ServiceError = require("../error/ServiceError")
 //引入md5
@@ -29,7 +27,7 @@ const service = {};
 service.demoTest = async (req,res)=>{
 	//进行业务处理,调用dao层接口,进行回调
 	var demo = new Demo(5,'欢迎使用express-demo')
-	return res.json(new JsonResult(JsonResult.STATUS_SUCCESS,'测试成功',demo));
+	return demo;
 }
 
 module.exports = service

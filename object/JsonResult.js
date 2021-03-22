@@ -7,6 +7,11 @@ class JsonResult {
 		this.message = message;
 		this.data = data;
 	}
+	
+	//成功返回封装
+	static success(data){
+		return new JsonResult(JsonResult.STATUS_SUCCESS,'ok',data)
+	}
 }
 
 JsonResult.STATUS_SUCCESS = 200; //请求成功状态码

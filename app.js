@@ -43,18 +43,18 @@ server.use(bodyParser.urlencoded({
 
 
 //请求访问拦截
-server.use(async (req, res, next) => {
+server.use((req, res, next) => {
 	var url = req.originalUrl; //获取浏览器中当前访问的nodejs路由地址
 	if (filter(url)) { //该地址需要token验证
 		var token = req.headers['authorization'];
 		if (token) {
 			//解析token
-			let jwtResult = await jwt.parseToken(token).catch(error => {
+			jwt.parseToken(token).then(jwtResult=>{
+				//这里对jwtResult进行校验
+				next();
+			}).catch(error => {
 				next(error);
-				return;
 			})
-			//这里对jwtResult进行校验
-			next();
 		} else {
 			//token不存在，直接不给通过
 			next(new UnauthorizedError('请求头未携带token信息，校验不通过'));

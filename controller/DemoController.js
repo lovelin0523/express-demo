@@ -14,7 +14,7 @@ const demoService = require("../service/DemoService")
 //测试接口
 router.get("/demo",(req,res,next)=>{
 	//此处调用业务Service类,进行业务逻辑的处理，利用catch处理service中的异常
-	demoService.demoTest(req,res).then(result=>{
+	demoService.demoTest(req).then(result=>{
 		return res.json(JsonResult.success(result))
 	}).catch(error=>{
 		next(error)

@@ -3,7 +3,7 @@ const ServiceError = require("../error/ServiceError")
 //引入md5
 const md5 = require("md5-node")
 //引入token工具
-const jwt = require("../util/JwtToken")
+const jwt = require("../jwt/JwtToken")
 //引入工具类
 const util = require("../util/util")
 //引入实体

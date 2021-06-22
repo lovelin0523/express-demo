@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 //创建连接池对象
-var pool = mysql.createPool({
+let pool = mysql.createPool({
 	host : "",//数据库IP地址
 	port : "",//数据库端口
 	user : "",//数据库账号

@@ -16,7 +16,7 @@ const ServiceError = require("./error/ServiceError");
 const UnauthorizedError = require("./error/UnauthorizedError");
 
 //创建web服务器
-var server = express();
+let server = express();
 server.all("*", (req, res, next) => {
 	//设置允许跨域的域名，*代表允许任意域名跨域
 	res.setHeader("Access-Control-Allow-Origin", "*");
@@ -44,9 +44,9 @@ server.use(bodyParser.urlencoded({
 
 //请求访问拦截
 server.use((req, res, next) => {
-	var url = req.originalUrl; //获取浏览器中当前访问的nodejs路由地址
+	let url = req.originalUrl; //获取浏览器中当前访问的nodejs路由地址
 	if (filter(url)) { //该地址需要token验证
-		var token = req.headers['authorization'];
+		let token = req.headers['authorization'];
 		if (token) {
 			//解析token
 			jwt.parseToken(token).then(jwtResult=>{

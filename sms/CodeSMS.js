@@ -20,8 +20,8 @@ class CodeSMS {
 	send(phoneNumber, params) {
 		return new Promise((resolve, reject) => {
 			// 实例化 QcloudSms
-			var qcloudsms = QcloudSms(this.appid, this.appkey);
-			var ssender = qcloudsms.SmsSingleSender();
+			let qcloudsms = QcloudSms(this.appid, this.appkey);
+			let ssender = qcloudsms.SmsSingleSender();
 			ssender.sendWithParam("86", phoneNumber, this.templateId, params, this.smsSign, "",
 				"", (err, res, resData) => {
 					if(err){

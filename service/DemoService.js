@@ -26,7 +26,7 @@ const service = {};
 //测试业务，使用asyc/await 进行异步转同步处理
 service.demoTest = async (req,res)=>{
 	//进行业务处理,调用dao层接口,进行回调
-	var demo = new Demo(5,'欢迎使用express-demo')
+	let demo = new Demo(5,'欢迎使用express-demo')
 	return demo;
 }
 

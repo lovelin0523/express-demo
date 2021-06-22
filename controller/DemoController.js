@@ -1,7 +1,7 @@
 //引入express模块
 const express = require("express")
 //创建路由器对象
-var router = express.Router()
+let router = express.Router()
 //引入JsonResult类
 const JsonResult = require("../object/JsonResult")
 //引入异常

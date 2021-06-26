@@ -3,6 +3,27 @@ const path = require("path");
  * 普通的工具类
  */
 const util = {
+	
+	/**
+	 * 根据虚拟路径获取文件名
+	 * @param {Object} filePath  文件完整虚拟路径
+	 */
+	getFileName(filePath){
+		const arry = filePath.split('/');
+		const fileName = arry[arry.length - 1];
+		return fileName;
+	},
+	
+	/**
+	 * 获取文件后缀
+	 * @param {Object} filePath  文件完整本地路径
+	 */
+	getFileSuffix(filePath) {
+		const arry = filePath.split(path.sep);
+		const fileName = arry[arry.length - 1];
+		const suffix = fileName.split('.');
+		return suffix[suffix.length-1];
+	},
 
 	/**
 	 * 参数为空判断

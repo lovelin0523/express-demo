@@ -11,24 +11,24 @@ const ServiceError = require("../error/ServiceError")
  */
 module.exports = (request, uploadDir, maxFilesSize, errorMessage) => {
 	return new Promise((resolve, reject) => {
-			const form = new multiparty.Form({
-				uploadDir: uploadDir,
-				encoding: 'utf-8',
-				maxFilesSize:maxFilesSize>0?maxFilesSize * 1024 : Infinity
-			});
-			form.parse(request, (err, fields, files) => {
-					if (err) {
-						if (err.code == 'ETOOBIG') {
-							reject(new ServiceError(errorMessage || '上传的文件过大，请重新上传')));
-					} else {
-						reject(new ServiceError(err.message));
-					}
+		const form = new multiparty.Form({
+			uploadDir: uploadDir,
+			encoding: 'utf-8',
+			maxFilesSize: maxFilesSize > 0 ? maxFilesSize * 1024 : Infinity
+		});
+		form.parse(request, (err, fields, files) => {
+			if (err) {
+				if (err.code == 'ETOOBIG') {
+					reject(new ServiceError(errorMessage || '上传的文件过大，请重新上传'));
 				} else {
-					resolve({
-						fields,
-						files
-					})
+					reject(new ServiceError(err.message));
 				}
-			});
+			} else {
+				resolve({
+					fields,
+					files
+				})
+			}
+		});
 	})
 }

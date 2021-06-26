@@ -6,7 +6,7 @@ const ServiceError = require("../error/ServiceError")
  * 上传文件封装
  * request:请求对象
  * uploadDir:文件存放的文件夹的完整路径名
- * maxFilesSize:上传的图片的最大尺寸，单位b
+ * maxFilesSize:上传的图片的最大尺寸，单位kb
  * errorMessage:如果文件过大时进行的提示内容
  */
 module.exports = (request, uploadDir, maxFilesSize, errorMessage) => {
@@ -14,7 +14,7 @@ module.exports = (request, uploadDir, maxFilesSize, errorMessage) => {
 			const form = new multiparty.Form({
 				uploadDir: uploadDir,
 				encoding: 'utf-8',
-				maxFilesSize: maxFilesSize
+				maxFilesSize:maxFilesSize>0?maxFilesSize * 1024 : Infinity
 			});
 			form.parse(request, (err, fields, files) => {
 					if (err) {
